@@ -85,3 +85,60 @@ Below are some test cases to validate the scoring logic:
 ### Attribution
 
 Insights and inspiration for this kata were derived from *Adventures in C#: The Bowling Game* and commentary by practitioners like RudyXDesjardins.
+
+
+# Simple Bowling Scoring Rules
+
+Here’s a simplified breakdown of how bowling scoring works:
+
+---
+
+## **Basic Rules**
+- A game consists of **10 frames**.
+- In each frame, you have up to **two rolls** to knock down all 10 pins.
+- Scoring depends on whether you get a **strike**, **spare**, or an **open frame**.
+
+---
+
+## **How to Score Each Frame**
+1. **Strike (`X`)**:
+   - All 10 pins knocked down on the **first roll**.
+   - Score = 10 + pins knocked down in the **next two rolls**.
+
+2. **Spare (`/`)**:
+   - All 10 pins knocked down in **two rolls**.
+   - Score = 10 + pins knocked down in the **next roll**.
+
+3. **Open Frame**:
+   - Fewer than 10 pins knocked down in two rolls.
+   - Score = Total number of pins knocked down in those two rolls.
+
+---
+
+## **Special Rules for the 10th Frame**
+- If you get a **strike** in the 10th frame, you get **2 bonus rolls**.
+- If you get a **spare** in the 10th frame, you get **1 bonus roll**.
+- If you don’t get a strike or spare, your score is just the total pins knocked down in two rolls.
+
+---
+
+## **Examples of Scoring**
+- **Perfect Game**: `XXXXXXXXXXXX`
+   - 12 rolls (10 frames + 2 bonus rolls for strikes).
+   - Score = 300 (maximum score).
+
+- **All 9 and Miss**: `9-9-9-9-9-9-9-9-9-9-`
+   - Score = 90 (9 points per frame).
+
+- **All Spares with Final 5**: `5/5/5/5/5/5/5/5/5/5/5`
+   - Score = 150 (15 points per frame).
+
+---
+
+## **Tips for Scoring Higher**
+- **Focus on Spares**: Converting spares consistently can dramatically improve your score.
+- **Practice Strikes**: Consecutive strikes add up quickly due to bonus scoring.
+- **Consistency is Key**: Aim for smooth, repeatable throws for better accuracy.
+
+Enjoy your bowling! 🎳
+
