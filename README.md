@@ -142,3 +142,28 @@ Here’s a simplified breakdown of how bowling scoring works:
 
 Enjoy your bowling! 🎳
 
+### **What is a Spare?**
+- A **spare** happens when you knock down **all 10 pins** in a single frame **using both rolls**.
+- Example:
+   - **First Roll**: 7 pins knocked down.
+   - **Second Roll**: 3 pins knocked down.
+   - Total: 7 + 3 = 10 pins → **Spare!**
+- Scoring for a Spare:
+   - You score **10 points** plus the **number of pins knocked down on your next roll**.
+
+---
+
+### **What is a Strike?**
+- A **strike** happens when you knock down **all 10 pins** in a single frame **with just the first roll**.
+- Example:
+   - **First Roll**: 10 pins knocked down → **Strike!**
+- Scoring for a Strike:
+   - You score **10 points** plus the **number of pins knocked down on your next two rolls**.
+
+---
+
+### **Key Difference**
+- A **strike** is achieved in **one roll**.
+- A **spare** is achieved in **two rolls**.
+
+Both contribute bonus points to your score, but a strike adds more because it considers the next **two rolls**, while a spare considers only the next **one roll**.
