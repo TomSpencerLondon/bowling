@@ -31,7 +31,7 @@ This simplification is intentional to keep the kata lightweight and focused on t
 
 4. The total game score is the sum of all frame scores.
 
-For detailed rules on how to score a bowling game, refer to [How to Score for Bowling](https://www.wikihow.com/Score-for-Bowling).
+For detailed rules on how to score a bowling game, refer to [How to Score for Bowling](https://out-of-bounds.co.uk/how-points-are-calculated-in-bowling/).
 
 ---
 
