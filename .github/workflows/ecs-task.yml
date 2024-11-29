@@ -1,0 +1,169 @@
+name: Deploy Spring Application to ECS Cluster
+
+on:
+  workflow_dispatch:
+    inputs:
+      action:
+        description: 'Choose action: deploy, scale to one, or scale to zero'
+        required: true
+        default: 'deploy'
+        type: choice
+        options:
+          - deploy
+          - one
+          - zero
+
+jobs:
+  deploy:
+    if: ${{ github.event.inputs.action == 'deploy' }}
+    runs-on: ubuntu-latest
+
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_REGION: ${{ secrets.AWS_REGION }}
+      ECS_CLUSTER: ${{ secrets.ECS_CLUSTER }}
+      ECS_TASK_DEFINITION_NAME: ${{ secrets.ECS_TASK_DEFINITION_NAME }}
+      AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
+      DOCKER_REPOSITORY: tomspencerlondon/bowling
+      IMAGE_TAG: ${{ github.sha }}
+      TASK_DEFINITION_FILE: "${{ secrets.ECS_TASK_DEFINITION_NAME }}.json"
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: Build the application
+        run: |
+          ./mvnw clean package -DskipTests
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build and push Docker image
+        id: build-image
+        run: |
+          docker build -t $DOCKER_REPOSITORY:$IMAGE_TAG .
+          docker push $DOCKER_REPOSITORY:$IMAGE_TAG
+          echo "image=$DOCKER_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Fill in the new image ID in the Amazon ECS task definition
+        id: task-def
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: .github/workflows/task-definition.json
+          container-name: bowling-container
+          image: ${{ steps.build-image.outputs.image }}
+
+      - name: Deploy Amazon ECS task definition
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v2
+        with:
+          task-definition: ${{ steps.task-def.outputs.task-definition }}
+          service: spring-websockets-service
+          cluster: spring-websockets
+          wait-for-service-stability: true
+          run-task: false
+
+      - name: Get Public IP of the Deployed ECS Task
+        run: |
+          # Get the task ID of the running task
+          TASK_ID=$(aws ecs list-tasks --cluster ${{ secrets.ECS_CLUSTER }} --service-name bowling-service --desired-status RUNNING --query "taskArns[0]" --output text --region ${{ secrets.AWS_REGION }})
+
+          if [ "$TASK_ID" == "None" ]; then
+            echo "No running tasks found."
+            exit 1
+          fi
+          echo "Task ID: $TASK_ID"
+
+          # Get the ENI ID associated with the task
+          ENI_ID=$(aws ecs describe-tasks --cluster ${{ secrets.ECS_CLUSTER }} --tasks $TASK_ID --query "tasks[0].attachments[0].details[?name=='networkInterfaceId'].value" --output text --region ${{ secrets.AWS_REGION }})
+          echo "ENI ID: $ENI_ID"
+
+          # Get the public IP associated with the ENI
+          PUBLIC_IP=$(aws ec2 describe-network-interfaces --network-interface-ids $ENI_ID --query "NetworkInterfaces[0].Association.PublicIp" --output text --region ${{ secrets.AWS_REGION }})
+
+          if [ "$PUBLIC_IP" == "None" ]; then
+            echo "No public IP found for the ECS task."
+            exit 1
+          fi
+          echo "Public IP: $PUBLIC_IP"
+
+          # Append port 8080 to the IP address
+          PUBLIC_IP_WITH_PORT="$PUBLIC_IP:8080"
+          echo "The public IP of the deployed ECS task is: $PUBLIC_IP_WITH_PORT"
+
+  scale_to_zero:
+    if: ${{ github.event.inputs.action == 'zero' }}
+    runs-on: ubuntu-latest
+
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_REGION: ${{ secrets.AWS_REGION }}
+      ECS_CLUSTER: ${{ secrets.ECS_CLUSTER }}
+      ECS_TASK_DEFINITION_NAME: ${{ secrets.ECS_TASK_DEFINITION_NAME }}
+      AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
+      DOCKER_REPOSITORY: tomspencerlondon/bowling
+      IMAGE_TAG: ${{ github.sha }}
+      TASK_DEFINITION_FILE: "${{ secrets.ECS_TASK_DEFINITION_NAME }}.json"
+
+    steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Scale Web App to zero
+        uses: zachelrath/github-action-ecs-scale@1.2.0
+        with:
+          service: bowling-service
+          cluster: bowling-cluster
+          desired-count: 0
+
+  scale_to_one:
+    if: ${{ github.event.inputs.action == 'one' }}
+    runs-on: ubuntu-latest
+
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_REGION: ${{ secrets.AWS_REGION }}
+      ECS_CLUSTER: ${{ secrets.ECS_CLUSTER }}
+      ECS_TASK_DEFINITION_NAME: ${{ secrets.ECS_TASK_DEFINITION_NAME }}
+      AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
+      DOCKER_REPOSITORY: tomspencerlondon/bowling
+      IMAGE_TAG: ${{ github.sha }}
+      TASK_DEFINITION_FILE: "${{ secrets.ECS_TASK_DEFINITION_NAME }}.json"
+
+    steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Scale Worker task to one
+        uses: zachelrath/github-action-ecs-scale@1.2.0
+        with:
+          service: bowling-service
+          cluster: bowling-cluster
+          desired-count: 1
