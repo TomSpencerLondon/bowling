@@ -36,3 +36,8 @@ node/
 node_modules/
 package-lock.json
 src/main/resources/static/css/output.css
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml

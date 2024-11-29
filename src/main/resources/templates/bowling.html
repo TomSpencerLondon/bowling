@@ -99,32 +99,41 @@
 </div>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-        const roll1 = document.getElementById("frame-10-roll1");
-        const roll2 = document.getElementById("frame-10-roll2");
-        const roll3 = document.getElementById("frame-10-roll3");
+        const rollInputs = document.querySelectorAll('.frame-input');
 
-        // Check for input in frame 10
-        roll1.addEventListener("input", checkThirdRollVisibility);
-        roll2.addEventListener("input", checkThirdRollVisibility);
+        // Add event listener to each roll input
+        rollInputs.forEach(input => {
+            input.addEventListener('input', function () {
+                const frameNumber = this.id.split('-')[1]; // Get the frame number
+                const roll1 = document.getElementById(`frame-${frameNumber}-roll1`);
+                const roll2 = document.getElementById(`frame-${frameNumber}-roll2`);
 
-        function checkThirdRollVisibility() {
-            const roll1Value = roll1.value.trim().toUpperCase();
-            const roll2Value = roll2.value.trim().toUpperCase();
+                // For frames 1-9, hide roll2 if roll1 is a strike
+                if (frameNumber <= 9) {
+                    if (roll1.value.trim().toUpperCase() === 'X') {
+                        roll2.value = ""
+                        roll2.style.display = 'none'; // Hide second roll for a strike
+                    } else {
+                        roll2.style.display = 'inline-block'; // Show second roll if not a strike
+                    }
+                }
 
-            // Show third roll if roll 1 is a strike (X) or if roll 1 + roll 2 equals 10 (spare)
-            if (roll1Value === "X" || roll2Value === "/" || (isNumeric(roll1Value) && isNumeric(roll2Value) && parseInt(roll1Value) + parseInt(roll2Value) === 10)) {
-                roll3.style.display = "inline-block";  // Show third roll input
-            } else {
-                roll3.style.display = "none";  // Hide third roll input
-            }
-        }
-
-        function isNumeric(value) {
-            return !isNaN(value) && value !== "";
-        }
+                // For frame 10, show third roll if roll1 is a strike or if it's a spare
+                const roll3 = document.getElementById(`frame-10-roll3`);
+                if (frameNumber === '10') {
+                    const roll1Value = roll1.value.trim().toUpperCase();
+                    const roll2Value = roll2.value.trim().toUpperCase();
+                    if (roll1Value === 'X' || roll2Value === '/' || (parseInt(roll1Value) + parseInt(roll2Value) === 10)) {
+                        roll3.style.display = 'inline-block'; // Show third roll
+                    } else {
+                        roll3.style.display = 'none'; // Hide third roll if no strike or spare
+                    }
+                }
+            });
+        });
     });
 
-    document.getElementById("new-game").addEventListener("click", function() {
+        document.getElementById("new-game").addEventListener("click", function() {
         window.location.href = "/bowling";  // Redirects to the /bowling page
     });
 

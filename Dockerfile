@@ -5,7 +5,7 @@ FROM amazoncorretto:21
 WORKDIR /app
 
 # Copy the JAR file into the container
-COPY target/your-app-0.0.1-SNAPSHOT.jar app.jar
+COPY target/bowling-0.0.1-SNAPSHOT.jar app.jar
 
 # Expose port 8080 (used by the Spring Boot app)
 EXPOSE 8080
