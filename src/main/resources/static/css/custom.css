@@ -112,7 +112,6 @@ button:active {
     background-color: #d32f2f;
 }
 
-
 /* Mobile Layout Adjustments */
 @media screen and (max-width: 600px) {
     /* Ensure the first roll input and the third roll input appear vertically in Frame 10 */
@@ -148,4 +147,41 @@ button:active {
         align-items: center;
         margin-top: 20px;
     }
+}
+/* Error message styles */
+.error-message {
+    color: #000; /* Black text for contrast against yellow background */
+    background-color: #ffeb3b; /* Yellow background for a softer, inviting look */
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    font-size: 16px;
+    display: flex;
+    align-items: center; /* Vertically align emoji with text */
+}
+
+.error-message .emoji {
+    margin-right: 10px; /* Space between the emoji and text */
+    font-size: 22px; /* Size of the emoji */
+}
+
+.error-message ul {
+    list-style-type: disc;
+    margin-left: 20px;
+    padding-left: 0; /* Remove default padding */
+    margin-top: 0;
+}
+
+.error-message li {
+    font-size: 16px;
+    margin-bottom: 8px; /* Space between list items */
+}
+
+.error-message li:last-child {
+    margin-bottom: 0; /* No margin on the last item */
+}
+
+.error-message p {
+    margin: 0; /* No margin for paragraphs within the error box */
 }

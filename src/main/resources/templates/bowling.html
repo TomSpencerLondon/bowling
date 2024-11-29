@@ -10,78 +10,89 @@
 <div class="bg-white shadow-xl rounded-lg p-8 w-full max-w-3xl">
     <h1>🎳 Bowling Scoreboard</h1>
 
+
     <!-- Form submitting to /submit-score -->
-    <form id="scoreboard-form" action="/submit-score" method="POST">
-        <!-- Container for Frames 1-5 (Left Column) -->
-        <div class="frames-left">
-            <div class="frame">
-                <label for="frame-1-roll1">Frame 1:</label>
-                <input type="text" id="frame-1-roll1" name="roll1" class="frame-input" placeholder="0" maxlength="1">
-                <input type="text" id="frame-1-roll2" name="roll2" class="frame-input" placeholder="0" maxlength="1">
-            </div>
-
-            <div class="frame">
-                <label for="frame-2-roll1">Frame 2:</label>
-                <input type="text" id="frame-2-roll1" name="roll3" class="frame-input" placeholder="0" maxlength="1">
-                <input type="text" id="frame-2-roll2" name="roll4" class="frame-input" placeholder="0" maxlength="1">
-            </div>
-
-            <div class="frame">
-                <label for="frame-3-roll1">Frame 3:</label>
-                <input type="text" id="frame-3-roll1" name="roll5" class="frame-input" placeholder="0" maxlength="1">
-                <input type="text" id="frame-3-roll2" name="roll6" class="frame-input" placeholder="0" maxlength="1">
-            </div>
-
-            <div class="frame">
-                <label for="frame-4-roll1">Frame 4:</label>
-                <input type="text" id="frame-4-roll1" name="roll7" class="frame-input" placeholder="0" maxlength="1">
-                <input type="text" id="frame-4-roll2" name="roll8" class="frame-input" placeholder="0" maxlength="1">
-            </div>
-
-            <div class="frame">
-                <label for="frame-5-roll1">Frame 5:</label>
-                <input type="text" id="frame-5-roll1" name="roll9" class="frame-input" placeholder="0" maxlength="1">
-                <input type="text" id="frame-5-roll2" name="roll10" class="frame-input" placeholder="0" maxlength="1">
-            </div>
+    <form action="/submit-score" method="POST">
+        <div th:if="${errorMessages}" class="error-message">
+            <span class="emoji">⚠️</span>
+            <ul>
+                <li th:each="error : ${errorMessages}" th:text="${error}"></li>
+            </ul>
         </div>
 
-        <!-- Container for Frames 6-10 (Right Column) -->
-        <div class="frames-right">
-            <div class="frame">
-                <label for="frame-6-roll1">Frame 6:</label>
-                <input type="text" id="frame-6-roll1" name="roll11" class="frame-input" placeholder="0" maxlength="1">
-                <input type="text" id="frame-6-roll2" name="roll12" class="frame-input" placeholder="0" maxlength="1">
+        <div id="scoreboard-form">
+
+            <!-- Container for Frames 1-5 (Left Column) -->
+            <div class="frames-left">
+                <div class="frame">
+                    <label for="frame-1-roll1">Frame 1:</label>
+                    <input type="text" id="frame-1-roll1" name="roll1" class="frame-input" value="-" placeholder="-" maxlength="1">
+                    <input type="text" id="frame-1-roll2" name="roll2" class="frame-input" value="-" placeholder="-" maxlength="1">
+                </div>
+
+                <div class="frame">
+                    <label for="frame-2-roll1">Frame 2:</label>
+                    <input type="text" id="frame-2-roll1" name="roll3" class="frame-input" value="-" placeholder="-" maxlength="1">
+                    <input type="text" id="frame-2-roll2" name="roll4" class="frame-input" value="-" placeholder="-" maxlength="1">
+                </div>
+
+                <div class="frame">
+                    <label for="frame-3-roll1">Frame 3:</label>
+                    <input type="text" id="frame-3-roll1" name="roll5" class="frame-input" value="-" placeholder="-" maxlength="1">
+                    <input type="text" id="frame-3-roll2" name="roll6" class="frame-input" value="-" placeholder="-" maxlength="1">
+                </div>
+
+                <div class="frame">
+                    <label for="frame-4-roll1">Frame 4:</label>
+                    <input type="text" id="frame-4-roll1" name="roll7" class="frame-input" value="-" placeholder="-" maxlength="1">
+                    <input type="text" id="frame-4-roll2" name="roll8" class="frame-input" value="-" placeholder="-" maxlength="1">
+                </div>
+
+                <div class="frame">
+                    <label for="frame-5-roll1">Frame 5:</label>
+                    <input type="text" id="frame-5-roll1" name="roll9" class="frame-input" value="-" placeholder="-" maxlength="1">
+                    <input type="text" id="frame-5-roll2" name="roll10" class="frame-input" value="-" placeholder="-" maxlength="1">
+                </div>
             </div>
 
-            <div class="frame">
-                <label for="frame-7-roll1">Frame 7:</label>
-                <input type="text" id="frame-7-roll1" name="roll13" class="frame-input" placeholder="0" maxlength="1">
-                <input type="text" id="frame-7-roll2" name="roll14" class="frame-input" placeholder="0" maxlength="1">
-            </div>
+            <!-- Container for Frames 6-10 (Right Column) -->
+            <div class="frames-right">
+                <div class="frame">
+                    <label for="frame-6-roll1">Frame 6:</label>
+                    <input type="text" id="frame-6-roll1" name="roll11" class="frame-input" value="-" placeholder="-" maxlength="1">
+                    <input type="text" id="frame-6-roll2" name="roll12" class="frame-input" value="-" placeholder="-" maxlength="1">
+                </div>
 
-            <div class="frame">
-                <label for="frame-8-roll1">Frame 8:</label>
-                <input type="text" id="frame-8-roll1" name="roll15" class="frame-input" placeholder="0" maxlength="1">
-                <input type="text" id="frame-8-roll2" name="roll16" class="frame-input" placeholder="0" maxlength="1">
-            </div>
+                <div class="frame">
+                    <label for="frame-7-roll1">Frame 7:</label>
+                    <input type="text" id="frame-7-roll1" name="roll13" class="frame-input" value="-" placeholder="-" maxlength="1">
+                    <input type="text" id="frame-7-roll2" name="roll14" class="frame-input" value="-" placeholder="-" maxlength="1">
+                </div>
 
-            <div class="frame">
-                <label for="frame-9-roll1">Frame 9:</label>
-                <input type="text" id="frame-9-roll1" name="roll17" class="frame-input" placeholder="0" maxlength="1">
-                <input type="text" id="frame-9-roll2" name="roll18" class="frame-input" placeholder="0" maxlength="1">
-            </div>
+                <div class="frame">
+                    <label for="frame-8-roll1">Frame 8:</label>
+                    <input type="text" id="frame-8-roll1" name="roll15" class="frame-input" value="-" placeholder="-" maxlength="1">
+                    <input type="text" id="frame-8-roll2" name="roll16" class="frame-input" value="-" placeholder="-" maxlength="1">
+                </div>
 
-            <div class="frame" id="frame-10">
-                <label for="frame-10-roll1">Frame 10:</label>
-                <input type="text" id="frame-10-roll1" name="roll19" class="frame-input" placeholder="0" maxlength="1">
-                <input type="text" id="frame-10-roll2" name="roll20" class="frame-input" placeholder="0" maxlength="1">
-                <input type="text" id="frame-10-roll3" name="roll21" class="frame-input" placeholder="0" maxlength="1" style="display: none;">
-            </div>
+                <div class="frame">
+                    <label for="frame-9-roll1">Frame 9:</label>
+                    <input type="text" id="frame-9-roll1" name="roll17" class="frame-input" value="-" placeholder="-" maxlength="1">
+                    <input type="text" id="frame-9-roll2" name="roll18" class="frame-input" value="-" placeholder="-" maxlength="1">
+                </div>
 
-            <!-- Submit Button Section -->
-            <div class="buttons">
-                <button type="submit">Submit Score</button>
-                <button type="button" id="new-game">New Game</button>
+                <div class="frame" id="frame-10">
+                    <label for="frame-10-roll1">Frame 10:</label>
+                    <input type="text" id="frame-10-roll1" name="roll19" class="frame-input" value="-" placeholder="-" maxlength="1">
+                    <input type="text" id="frame-10-roll2" name="roll20" class="frame-input" value="-" placeholder="-" maxlength="1">
+                    <input type="text" id="frame-10-roll3" name="roll21" class="frame-input" value="-" placeholder="-" maxlength="1" style="display: none;">
+                </div>
+
+                <!-- Submit Button Section -->
+                <div class="buttons">
+                    <button type="submit">Submit Score</button>
+                    <button type="button" id="new-game">New Game</button>
+                </div>
             </div>
         </div>
     </form>
@@ -111,12 +122,10 @@
         function isNumeric(value) {
             return !isNaN(value) && value !== "";
         }
+    });
 
-        // New Game button functionality
-        document.getElementById("new-game").addEventListener("click", function() {
-            document.getElementById("scoreboard-form").reset();
-            roll3.style.display = "none"; // Hide third roll input on new game
-        });
+    document.getElementById("new-game").addEventListener("click", function() {
+        window.location.href = "/bowling";  // Redirects to the /bowling page
     });
 </script>
 

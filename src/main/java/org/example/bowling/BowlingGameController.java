@@ -15,7 +15,7 @@ public class BowlingGameController {
 
     @GetMapping("/")
     public String redirectToBowling() {
-        return "redirect:/bowling"; // Redirects to the /bowling endpoint
+        return "redirect:/bowling";
     }
 
     @GetMapping("/bowling")
@@ -25,17 +25,18 @@ public class BowlingGameController {
 
     @PostMapping("/submit-score")
     public String submitScore(BowlingScore bowlingScore, RedirectAttributes redirectAttributes) {
-        int totalScore = bowlingGame.scoreBowling(bowlingScore.finalScore());
-
-        redirectAttributes.addFlashAttribute("score", totalScore);
-
-        return "redirect:/display-score";
+        try {
+            int totalScore = bowlingGame.scoreBowling(bowlingScore.finalScore());
+            redirectAttributes.addFlashAttribute("score", totalScore);
+            return "redirect:/display-score";
+        } catch (IllegalBowlingArgumentException e) {
+            redirectAttributes.addFlashAttribute("errorMessages", e.getErrorMessages());
+            return "redirect:/bowling";  // Redirect back to the bowling page
+        }
     }
 
     @GetMapping("/display-score")
     public String displayScore(Model model) {
-        // The score is already added to the model, so just display it
-
         return "display-score";  // This will correspond to a "display-score.html" view
     }
 }

@@ -14,8 +14,13 @@ public class BowlingGame {
 
         // Validate the input string
         if (!isValidBowlingInput(rolls)) {
-            throw new IllegalArgumentException("Invalid input format. Correct format: " +
-                    "X for strike, / for spare, numbers 0-9 for open frames. Example: X9-9-X9-/...");
+            throw new IllegalBowlingArgumentException(List.of(
+                    "Invalid input format. Correct format:",
+                    "X for strike",
+                    "/ for spare",
+                    "Numbers 0-9 for open frames",
+                    "Example: X9-9-X9-/..."
+            ));
         }
 
         for (int frame = 0; frame < 10; frame++) {
