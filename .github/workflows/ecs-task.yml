@@ -76,7 +76,7 @@ jobs:
         with:
           task-definition: ${{ steps.task-def.outputs.task-definition }}
           service: bowling-service
-          cluster: bowling-app
+          cluster: bowling
           wait-for-service-stability: true
           run-task: false
 
@@ -135,7 +135,7 @@ jobs:
         uses: zachelrath/github-action-ecs-scale@1.2.0
         with:
           service: bowling-service
-          cluster: bowling-cluster
+          cluster: bowling
           desired-count: 0
 
   scale_to_one:
@@ -165,5 +165,5 @@ jobs:
         uses: zachelrath/github-action-ecs-scale@1.2.0
         with:
           service: bowling-service
-          cluster: bowling-cluster
+          cluster: bowling
           desired-count: 1
