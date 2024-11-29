@@ -8,10 +8,15 @@ import java.util.List;
 @Service
 public class BowlingGame {
 
-    // Method to calculate the total score
     public int scoreBowling(String rolls) {
         int totalScore = 0;
         int rollIndex = 0;
+
+        // Validate the input string
+        if (!isValidBowlingInput(rolls)) {
+            throw new IllegalArgumentException("Invalid input format. Correct format: " +
+                    "X for strike, / for spare, numbers 0-9 for open frames. Example: X9-9-X9-/...");
+        }
 
         for (int frame = 0; frame < 10; frame++) {
             if (rolls.charAt(rollIndex) == 'X') {
@@ -56,4 +61,18 @@ public class BowlingGame {
             return Character.getNumericValue(roll);
         }
     }
+
+
+    private boolean isValidBowlingInput(String rolls) {
+        // Validate the length of the rolls (between 12 and 21)
+        if (rolls == null || rolls.length() < 12 || rolls.length() > 21) {
+            return false;
+        }
+
+        return rolls.matches("^[0-9X/-]*$");
+    }
+
+
+
+
 }
