@@ -1,10 +1,14 @@
 package org.example.bowling;
 
+import org.assertj.core.api.ThrowableAssertAlternative;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+import static org.junit.jupiter.api.Assertions.fail;
 
 public class BowlingGameTest {
     private BowlingGame bowlingGame;
@@ -92,21 +96,39 @@ public class BowlingGameTest {
     @Test
     void testInvalidCharacterInInput() {
         String rolls = "X9-9-X9-9-X9-9-X9-9@";  // Invalid character '@'
-
-        // Test that an IllegalArgumentException is thrown
-        assertThatExceptionOfType(IllegalArgumentException.class)
-                .isThrownBy(() -> bowlingGame.scoreBowling(rolls))
-                .withMessage("Invalid input format. Correct format: X for strike, / for spare, numbers 0-9 for open frames. Example: X9-9-X9-/...");
+        // Use a try-catch block to explicitly capture the exception
+        try {
+            bowlingGame.scoreBowling(rolls);
+            fail("Expected an IllegalBowlingArgumentException to be thrown");
+        } catch (IllegalBowlingArgumentException ex) {
+            // Assert the error messages in the exception
+            assertThat(ex.getErrorMessages()).containsExactly(
+                    "Invalid input format. Correct format:",
+                    "X for strike",
+                    "/ for spare",
+                    "Numbers 0-9 for open frames",
+                    "Example: X9-9-X9-/..."
+            );
+        }
     }
 
     @Test
     void testTooManyFrames() {
         String rolls = "X9-9-X9-9-X9-9-X9-9-X9-9-X9";  // Too many frames (11 frames)
-
-        // Test that an IllegalArgumentException is thrown
-        assertThatExceptionOfType(IllegalArgumentException.class)
-                .isThrownBy(() -> bowlingGame.scoreBowling(rolls))
-                .withMessage("Invalid input format. Correct format: X for strike, / for spare, numbers 0-9 for open frames. Example: X9-9-X9-/...");
+        // Use a try-catch block to explicitly capture the exception
+        try {
+            bowlingGame.scoreBowling(rolls);
+            fail("Expected an IllegalBowlingArgumentException to be thrown");
+        } catch (IllegalBowlingArgumentException ex) {
+            // Assert the error messages in the exception
+            assertThat(ex.getErrorMessages()).containsExactly(
+                    "Invalid input format. Correct format:",
+                    "X for strike",
+                    "/ for spare",
+                    "Numbers 0-9 for open frames",
+                    "Example: X9-9-X9-/..."
+            );
+        }
     }
 
 }
