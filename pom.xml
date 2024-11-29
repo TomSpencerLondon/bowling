@@ -105,6 +105,7 @@
 				</executions>
 			</plugin>
 		</plugins>
+		<finalName>bowling</finalName>
 	</build>
 
 </project>
