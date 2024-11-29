@@ -1,0 +1,154 @@
+/* Basic Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    flex-direction: column; /* Center content vertically and horizontally */
+}
+
+h1 {
+    text-align: center; /* Center the heading */
+    margin-bottom: 20px;
+    font-size: 2rem;
+    color: #333; /* Make the heading text a bit darker */
+}
+
+/* Form Container */
+#scoreboard-form {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 800px;
+
+    /* Using Grid Layout to create two columns on large screens */
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Two equal-width columns */
+    gap: 20px; /* Adds space between columns */
+}
+
+/* Frame Styling */
+.frame {
+    margin-bottom: 15px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px; /* Adjusts the space between frame elements */
+    align-items: center; /* Ensures labels and inputs align */
+}
+
+/* Label Styling */
+.frame label {
+    font-size: 1.2rem; /* Medium font size for labels */
+    font-weight: bold;
+    display: inline-block;
+    width: 100px;
+    text-align: left;
+    margin-bottom: 5px;
+}
+
+/* Input Fields */
+.frame-input {
+    width: 80px;
+    height: 40px;
+    font-size: 1.5rem;
+    padding: 5px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    text-align: center;
+}
+
+/* Buttons */
+.buttons {
+    text-align: center;
+    margin-top: 20px;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 1rem;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 5px;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+button:active {
+    background-color: #3e8e41;
+}
+
+/* New Game Button */
+#new-game {
+    background-color: #f44336;
+}
+
+#new-game:hover {
+    background-color: #e53935;
+}
+
+#new-game:active {
+    background-color: #d32f2f;
+}
+
+
+/* Mobile Layout Adjustments */
+@media screen and (max-width: 600px) {
+    /* Ensure the first roll input and the third roll input appear vertically in Frame 10 */
+    .frame #frame-10-roll3 {
+        display: block;
+        margin-top: 10px;
+        width: 100%; /* Make it span the full width */
+    }
+
+    /* Make the frame inputs take up more width on mobile */
+    .frame .frame-input {
+        width: 100%; /* Make the inputs take the full width on mobile */
+        margin-right: 0; /* Remove the right margin */
+    }
+
+    /* Stack the inputs vertically for frame 10 */
+    #frame-10 {
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* Adjust the form padding */
+    #scoreboard-form {
+        padding: 15px;
+        grid-template-columns: 1fr; /* Switch to 1 column on small screens */
+    }
+
+    /* Adjust the button sizes on mobile */
+    button {
+        width: 100%;
+        font-size: 1.2rem; /* Slightly bigger font size for readability */
+        padding: 15px; /* Increase button padding */
+    }
+
+    /* Center the buttons vertically on small screens */
+    .buttons {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 20px;
+    }
+}

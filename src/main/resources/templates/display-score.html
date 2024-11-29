@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bowling Score - Results</title>
+    <link href="/css/output.css" rel="stylesheet">
+</head>
+<body class="bg-gradient-to-br from-purple-500 to-blue-600 min-h-screen flex items-center justify-center">
+
+<!-- Main Container -->
+<div class="bg-white shadow-2xl rounded-lg p-8 w-full max-w-md text-center transform transition duration-500 hover:scale-105">
+    <h1 class="text-4xl font-extrabold text-gray-900 mb-4">
+        🏆 Bowling Scoreboard
+    </h1>
+
+    <!-- Score Section -->
+    <div class="bg-blue-100 p-6 rounded-lg mb-6 shadow-lg border border-blue-300">
+        <h2 class="text-2xl font-bold text-blue-800">Your Final Score:</h2>
+        <p class="text-5xl font-extrabold text-blue-900 mt-4 animate-bounce" th:text="${score}">99</p>
+    </div>
+
+    <!-- Button Section -->
+    <div>
+        <a href="/"
+           class="inline-flex items-center justify-center bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 text-white font-extrabold text-lg py-3 px-8 rounded-lg shadow-xl transform transition duration-300 hover:scale-110">
+            <span class="mr-2 text-2xl">🎮</span>
+            <span>Start a New Game</span>
+        </a>
+    </div>
+</div>
+
+</body>
+</html>

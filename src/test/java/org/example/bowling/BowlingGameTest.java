@@ -22,4 +22,69 @@ public class BowlingGameTest {
         assertThat(score)
                 .isEqualTo(300);
     }
+
+    @Test
+    public void allSpares() {
+        String rolls = "5/5/5/5/5/5/5/5/5/5/5";
+        int score = bowlingGame.scoreBowling(rolls);
+
+        assertThat(score).isEqualTo(150);
+    }
+
+    @Test
+    void allSparesAgain() {
+        String rolls = "9/9/9/9/9/9/9/9/9/9/1";
+        int score = bowlingGame.scoreBowling(rolls);
+
+        assertThat(score)
+                .isEqualTo(182);
+    }
+
+    @Test
+    void alternateStrikesAndOpenFrames() {
+        String rolls = "X9-9-X9-9-X9-9-X9-";
+        int score = bowlingGame.scoreBowling(rolls);
+
+        assertThat(score).isEqualTo(130);
+    }
+
+    @Test
+    void strikeAndMissesAlternate() {
+        String rolls = "X9-9-X9-9-X9-9-9-";
+        int score = bowlingGame.scoreBowling(rolls);
+
+        assertThat(score).isEqualTo(120);
+    }
+
+    @Test
+    void allOnesOnEachFrame() {
+        String rolls = "1-1-1-1-1-1-1-1-1-1-";
+        int score = bowlingGame.scoreBowling(rolls);
+
+        assertThat(score).isEqualTo(10);
+    }
+
+    @Test
+    void sparesAndSomeOpenFrames() {
+        String rolls = "1-1-1-1-1-1-1-1-1-1-";
+        int score = bowlingGame.scoreBowling(rolls);
+
+        assertThat(score).isEqualTo(10);
+    }
+
+    @Test
+    void allOnesOnEachRoll() {
+        String rolls = "11111111111111111111";
+        int score = bowlingGame.scoreBowling(rolls);
+
+        assertThat(score).isEqualTo(20);
+    }
+
+    @Test
+    void sparesWithOpenFrames() {
+        String rolls = "5/5/5-5/5-5-5/5-5-5/-";
+        int score = bowlingGame.scoreBowling(rolls);
+
+        assertThat(score).isEqualTo(95);
+    }
 }
