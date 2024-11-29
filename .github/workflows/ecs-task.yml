@@ -75,8 +75,8 @@ jobs:
         uses: aws-actions/amazon-ecs-deploy-task-definition@v2
         with:
           task-definition: ${{ steps.task-def.outputs.task-definition }}
-          service: spring-websockets-service
-          cluster: spring-websockets
+          service: bowling-service
+          cluster: bowling-app
           wait-for-service-stability: true
           run-task: false
 
