@@ -1,8 +1,11 @@
 package org.example.bowling;
 
+import jakarta.annotation.PostConstruct;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+
+import java.util.Arrays;
 
 @SpringBootApplication
 public class BowlingApplication {
@@ -15,5 +18,4 @@ public class BowlingApplication {
 	public BowlingGame bowlingGame() {
 		return new BowlingGame(); // This is the explicit bean definition
 	}
-
 }
