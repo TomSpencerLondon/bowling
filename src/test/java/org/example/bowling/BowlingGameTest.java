@@ -131,4 +131,91 @@ public class BowlingGameTest {
         }
     }
 
+    @Test
+    void allFoursGivesTwenty() {
+        String normalRolls = "44444444444444444444";
+
+        int score = bowlingGame.scoreBowling(normalRolls);
+
+        assertThat(score)
+                .isEqualTo(80);
+    }
+
+    @Test
+    void framesWithNinesAllowed() {
+        String normalRolls = "45454545454545454545";
+
+        int score = bowlingGame.scoreBowling(normalRolls);
+
+        assertThat(score)
+                .isEqualTo(90);
+    }
+
+    @Test
+    void normalFramesWithStrikeAllowed() {
+        String normalRolls = "45X4545454545454545";
+
+        int score = bowlingGame.scoreBowling(normalRolls);
+
+        assertThat(score)
+                .isEqualTo(100);
+    }
+
+    @Test
+    void normalRollShouldNotUseANumberToRepresentStrike() {
+        String rollsWithFrameLargerThanTen = "44464444444444444444";
+
+        try {
+            bowlingGame.scoreBowling(rollsWithFrameLargerThanTen);
+            fail("Expected an IllegalBowlingArgumentException to be thrown");
+        } catch (IllegalBowlingArgumentException ex) {
+            // Assert the error messages in the exception
+            assertThat(ex.getErrorMessages()).containsExactly(
+                    "Invalid input format. Correct format:",
+                    "X for strike",
+                    "/ for spare",
+                    "Numbers 0-9 for open frames",
+                    "Example: X9-9-X9-/..."
+            );
+        }
+    }
+
+
+    @Test
+    void normalFrameShouldNotBeGreaterThanTen() {
+        String rollsWithFrameLargerThanTen = "44474444444444444444";
+
+        try {
+            bowlingGame.scoreBowling(rollsWithFrameLargerThanTen);
+            fail("Expected an IllegalBowlingArgumentException to be thrown");
+        } catch (IllegalBowlingArgumentException ex) {
+            // Assert the error messages in the exception
+            assertThat(ex.getErrorMessages()).containsExactly(
+                    "Invalid input format. Correct format:",
+                    "X for strike",
+                    "/ for spare",
+                    "Numbers 0-9 for open frames",
+                    "Example: X9-9-X9-/..."
+            );
+        }
+    }
+
+    @Test
+    void spareWithNextFrameGreaterThanTenIsNotAllowed() {
+        String rollsWithFrameLargerThanTen = "4/474444444444444444";
+
+        try {
+            bowlingGame.scoreBowling(rollsWithFrameLargerThanTen);
+            fail("Expected an IllegalBowlingArgumentException to be thrown");
+        } catch (IllegalBowlingArgumentException ex) {
+            // Assert the error messages in the exception
+            assertThat(ex.getErrorMessages()).containsExactly(
+                    "Invalid input format. Correct format:",
+                    "X for strike",
+                    "/ for spare",
+                    "Numbers 0-9 for open frames",
+                    "Example: X9-9-X9-/..."
+            );
+        }
+    }
 }

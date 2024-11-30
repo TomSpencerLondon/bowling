@@ -40,14 +40,29 @@ public class BowlingGame {
 
     private int getScoreForNextTwoRolls(String rolls, int index) {
         int score = 0;
-
         char firstRoll = rolls.charAt(index);
-        score += getRollScore(firstRoll);
-
+        int firstRollScore = getRollScore(firstRoll);
         char secondRoll = rolls.charAt(index + 1);
-        score += getRollScore(secondRoll);
+        int secondRollScore = getRollScore(secondRoll);
+
+        if (firstRollScore != 10 && !acceptableNormalScore(firstRollScore, secondRollScore)) {
+            throw new IllegalBowlingArgumentException(List.of(
+                    "Invalid input format. Correct format:",
+                    "X for strike",
+                    "/ for spare",
+                    "Numbers 0-9 for open frames",
+                    "Example: X9-9-X9-/..."
+            ));
+        }
+
+        score += firstRollScore;
+        score += secondRollScore;
 
         return score;
+    }
+
+    private static boolean acceptableNormalScore(int firstRollScore, int secondRollScore) {
+        return 10 - (firstRollScore + secondRollScore) > 0;
     }
 
     private int getScoreForNextRoll(String rolls, int index) {
